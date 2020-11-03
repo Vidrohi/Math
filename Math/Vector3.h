@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+class Transform;
+
 class Vector3
 {
 public:
@@ -17,6 +19,9 @@ public:
 
     Vector3 operator *(float scale) const;
     Vector3& operator *=(float scale);
+
+	Vector3 operator *(const Transform& tx) const;
+	Vector3& operator *=(const Transform& tx);
 
     Vector3 operator /(float scale) const;
 

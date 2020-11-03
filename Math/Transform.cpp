@@ -1,7 +1,9 @@
 #include <cassert>
 
+#include "Vector3.h"
 #include "Transform.h"
 #include "Utils.h"
+#include <sstream>
 
 Transform::Transform()
 {
@@ -74,9 +76,23 @@ Vector3 Transform::GetPosition() const
     return Row3;
 }
 
+std::string Transform::GetAsString() const
+{
+	std::ostringstream transformAsString;
+	for (int r = 0; r < 4; r++)
+	{
+		for (int c = 0; c < 4; c++)
+		{
+			transformAsString << val[r][c] << " ";
+		}
+		transformAsString << "\n";
+	}
+	return transformAsString.str();
+}
+
 void Transform::SetRow(int rowIdx, const Vector3& v, float w)
 {
-	assert(("Invalid index for component access!\n" , (rowIdx >= 0) && (rowIdx < 3)));
+	assert(("Invalid index for component access!\n" , (rowIdx >= 0) && (rowIdx < 4)));
 	val[rowIdx][0] = v.x();
 	val[rowIdx][1] = v.y();
 	val[rowIdx][2] = v.z();
@@ -94,7 +110,7 @@ Transform Transform::CreateRotationMatrix(float eulerXYZ[3])
 
 Transform Transform::CreateRotationAboutX(float eulerDegressX)
 {
-	if (fabs(eulerDegressX) > std::numeric_limits<float>::epsilon())
+	if (fabs(eulerDegressX) < std::numeric_limits<float>::epsilon())
 	{
 		return Transform::CreateIdentity();
 	}
@@ -114,7 +130,7 @@ Transform Transform::CreateRotationAboutX(float eulerDegressX)
 
 Transform Transform::CreateRotationAboutY(float eulerDegressY)
 {
-	if (fabs(eulerDegressY) > std::numeric_limits<float>::epsilon())
+	if (fabs(eulerDegressY) < std::numeric_limits<float>::epsilon())
 	{
 		return Transform::CreateIdentity();
 	}
@@ -134,7 +150,7 @@ Transform Transform::CreateRotationAboutY(float eulerDegressY)
 
 Transform Transform::CreateRotationAboutZ(float eulerDegressZ)
 {
-	if (fabs(eulerDegressZ) > std::numeric_limits<float>::epsilon())
+	if (fabs(eulerDegressZ) < std::numeric_limits<float>::epsilon())
 	{
 		return Transform::CreateIdentity();
 	}
@@ -154,7 +170,7 @@ Transform Transform::CreateRotationAboutZ(float eulerDegressZ)
 
 Transform Transform::CreateTranslationMatrix(float posXYZ[3])
 {
-    Transform result;
+	Transform result(Transform::CreateIdentity());
     result(3, 0) = fabs(posXYZ[0]) > std::numeric_limits<float>::epsilon() ? posXYZ[0] : 0.f;
     result(3, 1) = fabs(posXYZ[1]) > std::numeric_limits<float>::epsilon() ? posXYZ[1] : 0.f;
     result(3, 2) = fabs(posXYZ[2]) > std::numeric_limits<float>::epsilon() ? posXYZ[2] : 0.f;
@@ -164,15 +180,22 @@ Transform Transform::CreateTranslationMatrix(float posXYZ[3])
 Transform Transform::CreateScaleMatrix(float scaleXYZ[3])
 {
     Transform result;
+	assert((fabs(scaleXYZ[0]) > std::numeric_limits<float>::epsilon(), "Scale x was too close to 0"));
     result(0, 0) = fabs(scaleXYZ[0] - 1.f) > std::numeric_limits<float>::epsilon() ? scaleXYZ[0] : 1.f;
+
+	assert((fabs(scaleXYZ[1]) > std::numeric_limits<float>::epsilon(), "Scale y was too close to 0"));
     result(1, 1) = fabs(scaleXYZ[1] - 1.f) > std::numeric_limits<float>::epsilon() ? scaleXYZ[1] : 1.f;
+
+	assert((fabs(scaleXYZ[1]) > std::numeric_limits<float>::epsilon(), "Scale z was too close to 0"));
     result(2, 2) = fabs(scaleXYZ[2] - 1.f) > std::numeric_limits<float>::epsilon() ? scaleXYZ[2] : 1.f;
     return result;
 }
 
 Transform Transform::CreateMatrix(float eulerXYZ[3], float posXYZ[3], float scaleXYZ[3])
 {
-    Transform result;
+    Transform result(CreateScaleMatrix(scaleXYZ));
+	result *= CreateRotationAboutX(eulerXYZ[0]) * CreateRotationAboutY(eulerXYZ[1])* CreateRotationAboutZ(eulerXYZ[2]);
+	result *= CreateTranslationMatrix(posXYZ);
     return result;
 }
 
@@ -180,8 +203,8 @@ const Transform Transform::CreateIdentity()
 {
 	Transform result;
 	result.SetRow(0, Vector3(1.0f, 0.0f, 0.0f), 0.0f);
-	result.SetRow(1, Vector3(1.0f, 1.0f, 0.0f), 0.0f);
-	result.SetRow(2, Vector3(1.0f, 0.0f, 1.0f), 0.0f);
+	result.SetRow(1, Vector3(0.0f, 1.0f, 0.0f), 0.0f);
+	result.SetRow(2, Vector3(0.0f, 0.0f, 1.0f), 0.0f);
 	result.SetRow(3, Vector3(0.0f, 0.0f, 0.0f), 1.0f);
 	return result;
 }

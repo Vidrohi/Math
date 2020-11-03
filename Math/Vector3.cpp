@@ -1,4 +1,5 @@
 #include "Vector3.h"
+#include "Transform.h"
 #include <sstream>
 
 Vector3 Vector3::UnitX(1.f, 0.f, 0.f);
@@ -81,6 +82,21 @@ Vector3 Vector3::operator/(float scale) const
     return { m_x / scale
     , m_y / scale
     , m_z / scale };
+}
+
+Vector3 Vector3::operator*(const Transform& tx) const
+{
+	Vector3 result;
+	result.m_x = m_x * tx(0, 0) + m_y * tx(1, 0) + m_z * tx(2, 0) + tx(3, 0);
+	result.m_y = m_x * tx(0, 1) + m_y * tx(1, 1) + m_z * tx(2, 1) + tx(3, 1);
+	result.m_z = m_x * tx(0, 2) + m_y * tx(1, 2) + m_z * tx(2, 2) + tx(3, 2);
+	return result;
+}
+
+Vector3& Vector3::operator*=(const Transform& tx)
+{
+	*this = *this * tx;
+	return *this;
 }
 
 void Vector3::Normalize()

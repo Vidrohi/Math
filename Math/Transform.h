@@ -1,5 +1,7 @@
 #pragma once
-#include "Vector3.h"
+#include <string>
+
+class Vector3;
 
 class Transform
 {
@@ -16,6 +18,8 @@ public:
     Transform GetTranslation() const;
 
     Vector3 GetPosition() const;
+
+	std::string GetAsString() const;
 
 	void SetRow(int rowIdx, const Vector3& v, float w);
 
