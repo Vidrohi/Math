@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1267
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Math", "Math\Math.vcxproj", "{A7915E9C-AA18-478E-A44F-BACCAA6FD26D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7915E9C-AA18-478E-A44F-BACCAA6FD26D}.Debug|x64.ActiveCfg = Debug|x64
+		{A7915E9C-AA18-478E-A44F-BACCAA6FD26D}.Debug|x64.Build.0 = Debug|x64
+		{A7915E9C-AA18-478E-A44F-BACCAA6FD26D}.Debug|x86.ActiveCfg = Debug|Win32
+		{A7915E9C-AA18-478E-A44F-BACCAA6FD26D}.Debug|x86.Build.0 = Debug|Win32
+		{A7915E9C-AA18-478E-A44F-BACCAA6FD26D}.Release|x64.ActiveCfg = Release|x64
+		{A7915E9C-AA18-478E-A44F-BACCAA6FD26D}.Release|x64.Build.0 = Release|x64
+		{A7915E9C-AA18-478E-A44F-BACCAA6FD26D}.Release|x86.ActiveCfg = Release|Win32
+		{A7915E9C-AA18-478E-A44F-BACCAA6FD26D}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9588EB62-7D01-4CC2-BF79-994D76B3CC71}
+	EndGlobalSection
+EndGlobal
